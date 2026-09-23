@@ -42,6 +42,28 @@
         </div>
     </div>
 
+    <div class="card form-section">
+        <h4>Acceso de Soporte/TI (Backups)</h4>
+        <div class="form-grid cols-2">
+            <div class="field">
+                <label>Clave de Soporte/TI</label>
+                <input class="input" type="password" name="support_pin" placeholder="••••••••" autocomplete="new-password">
+                <label style="margin-top:6px;font-weight:400;color:var(--muted);font-size:0.78rem">
+                    Crear, descargar o eliminar backups requiere esta clave. Déjala vacía para conservar la actual.
+                </label>
+            </div>
+        </div>
+        <?php if ($supportConfigured): ?>
+            <p class="sub" style="margin-top:10px;color:var(--muted);font-size:0.85rem">
+                <span class="tag tag-ok">PROTECCIÓN ACTIVA</span> Las operaciones de backup exigen la clave de Soporte/TI.
+            </p>
+        <?php else: ?>
+            <p class="sub" style="margin-top:10px;color:var(--muted);font-size:0.85rem">
+                <span class="tag tag-warn">SIN CONFIGURAR</span> Los backups quedan bloqueados hasta definir una clave.
+            </p>
+        <?php endif; ?>
+    </div>
+
     <button class="btn btn-primary" type="submit">Guardar configuración</button>
 </form>
 

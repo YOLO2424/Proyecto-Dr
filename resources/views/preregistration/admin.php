@@ -77,18 +77,3 @@
         </table>
     </div>
 <?php endif; ?>
-
-<script>
-document.querySelector('[data-generate-regqr]').addEventListener('click', function () {
-    fetch('/registros/qr/nuevo-token')
-        .then(r => r.json())
-        .then(function (data) {
-            if (data.url) {
-                var box = document.getElementById('regqr-area');
-                box.style.display = 'inline-block';
-                document.getElementById('regqr-img').src = '/qr/imagen?t=' + encodeURIComponent(data.url);
-                document.getElementById('regqr-payload').textContent = data.url;
-            }
-        });
-});
-</script>

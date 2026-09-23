@@ -12,7 +12,7 @@
         <div style="font-size:2.4rem">◌</div>
         <h1><?= \App\Core\View::e($message ?? 'Página no encontrada') ?></h1>
         <div class="hint" style="text-align:center">El recurso no existe en este sistema.</div>
-        <a class="btn btn-primary btn-block" href="/">Volver al inicio</a>
+        <div style="margin-top:16px;color:var(--muted);font-size:0.82rem">Puedes cerrar esta página.</div>
     </div>
 </div>
 </body>

@@ -9,6 +9,7 @@ use App\Services\SettingsService;
 use App\Services\AuditService;
 use App\Services\BackupService;
 use App\Services\QrService;
+use App\Services\SupportAuth;
 
 final class SettingsController
 {
@@ -19,6 +20,7 @@ final class SettingsController
             'backupConfig' => [
                 'retention_days' => (new SettingsService())->get('backup_retention_days', '30'),
             ],
+            'supportConfigured' => SupportAuth::isConfigured(),
         ]));
     }
 
@@ -33,12 +35,23 @@ final class SettingsController
             }
         }
 
+        $pinChanged = false;
+        $pin = (string) ($data['support_pin'] ?? '');
+        if ($pin !== '') {
+            if (strlen($pin) < 4) {
+                Response::redirectWith('/configuracion', 'error', 'La clave de Soporte/TI debe tener al menos 4 caracteres.');
+            }
+            $service->set('support_pin_hash', password_hash($pin, PASSWORD_DEFAULT));
+            $service->set('support_pin_updated_at', date('Y-m-d H:i:s'));
+            $pinChanged = true;
+        }
+
         if (!empty($request->input('action')) && $request->input('action') === 'qr_registro') {
             $prefix = trim((string) $request->input('qr_prefix', 'PATIENT:'));
             $service->set('qr_prefix', $prefix);
         }
 
-        (new AuditService())->log('CONFIGURACION.ACTUALIZADA', 'settings', null, []);
+        (new AuditService())->log('CONFIGURACION.ACTUALIZADA', 'settings', null, ['pin_soporte' => $pinChanged]);
         Response::redirectWith('/configuracion', 'success', 'Configuración guardada.');
     }
 

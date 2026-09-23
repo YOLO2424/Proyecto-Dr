@@ -79,6 +79,9 @@ final class App
         $router->get('/registro/([a-zA-Z0-9]+)', 'RegistrationController', 'externalForm');
         $router->post('/registro/([a-zA-Z0-9]+)', 'RegistrationController', 'externalSubmit');
 
+        // ---- Ficha publica del paciente (acceso por QR; sin datos clinicos)
+        $router->get('/u/([A-Z0-9-]+)', 'PatientController', 'publicShow');
+
         // ---- Administracion de pre-registros
         $router->get('/registros', 'RegistrationController', 'adminIndex');
         $router->get('/registros/qr/nuevo-token', 'RegistrationController', 'newToken');
@@ -90,11 +93,17 @@ final class App
         $router->get('/pacientes/([A-Z0-9-]+)/documentos/(\d+)/descargar', 'DocumentController', 'download');
         $router->post('/pacientes/([A-Z0-9-]+)/documentos/(\d+)/eliminar', 'DocumentController', 'delete');
 
-        // ---- Backups
+        // ---- Backups (requieren acceso de Soporte/TI)
+        $router->get('/soporte', 'SoporteController', 'loginForm');
+        $router->post('/soporte', 'SoporteController', 'verify');
+        $router->post('/soporte/salir', 'SoporteController', 'logout');
         $router->get('/backups', 'BackupController', 'index');
         $router->post('/backups', 'BackupController', 'create');
         $router->get('/backups/([a-zA-Z0-9._-]+)', 'BackupController', 'download');
         $router->post('/backups/([a-zA-Z0-9._-]+)/eliminar', 'BackupController', 'delete');
+
+        // ---- Estado en vivo (sin recarga de pagina)
+        $router->get('/live/estado', 'LiveController', 'estado');
 
         // ---- Configuracion y auditoria
         $router->get('/configuracion', 'SettingsController', 'index');

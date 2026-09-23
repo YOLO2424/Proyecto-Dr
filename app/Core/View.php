@@ -27,8 +27,10 @@ final class View
         require $views . '/' . $view . '.php';
         $content = ob_get_clean();
 
+        // Modo fragmento: devuelve solo el contenido (para actualizacion en vivo sin recargar).
+        $liveFragment = ($_GET['live'] ?? null) === '1';
         $isStandalone = str_starts_with(ltrim($content), '<!DOCTYPE');
-        if ($layout === null || $isStandalone) {
+        if ($layout === null || $isStandalone || $liveFragment) {
             return $content;
         }
 

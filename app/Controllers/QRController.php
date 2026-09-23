@@ -31,7 +31,7 @@ final class QRController
             ]), 404);
         }
         (new AuditService())->log('QR.ESCANEADO', 'patients', null, ['patient_id' => $result['patient_id']]);
-        Response::redirect('/pacientes/' . $result['patient_id']);
+        Response::redirect('/u/' . $result['patient_id']);
     }
 
     /**

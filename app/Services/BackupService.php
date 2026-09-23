@@ -34,16 +34,17 @@ final class BackupService
         $pdo->exec('PRAGMA wal_checkpoint(FULL);');
         $pdo->exec("VACUUM INTO '" . $tmpDb . "'");
 
-        $zip = new ZipArchive();
-        if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+        try {
+            $zip = new ZipArchive();
+            if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+                throw new \RuntimeException('No se pudo crear el archivo ZIP de respaldo.');
+            }
+            $zip->addFile($tmpDb, 'database/app.sqlite');
+            $this->addRecursive($zip, $this->config['paths']['documents'], 'documents');
+            $zip->close();
+        } finally {
             @unlink($tmpDb);
-            throw new \RuntimeException('No se pudo crear el archivo ZIP de respaldo.');
         }
-
-        $zip->addFile($tmpDb, 'database/app.sqlite');
-        $this->addRecursive($zip, $this->config['paths']['documents'], 'documents');
-        $zip->close();
-        @unlink($tmpDb);
 
         $this->applyRetention();
 

@@ -44,7 +44,7 @@ function isActive(string $href, string $current): bool
         </a>
         <a href="/registros" class="nav-link <?= isActive('/registros', $path) ? 'active' : '' ?>">
             <span class="icono">◧</span> Pre-registros
-            <?php if ($pendingCount > 0): ?><span class="badge"><?= $pendingCount ?></span><?php endif; ?>
+            <span class="badge" id="badge-prereg" <?= $pendingCount > 0 ? '' : 'style="display:none"' ?>><?= (int) $pendingCount ?></span>
         </a>
         <div class="nav-group">Administración</div>
         <a href="/backups" class="nav-link <?= isActive('/backups', $path) ? 'active' : '' ?>">
@@ -62,7 +62,7 @@ function isActive(string $href, string $current): bool
         </div>
     </aside>
 
-    <main class="main">
+    <main class="main" id="live-region">
         <?php if ($flash): ?>
             <div class="flash <?= \App\Core\View::e($flash['type']) ?>"><?= \App\Core\View::e($flash['message']) ?></div>
         <?php endif; ?>

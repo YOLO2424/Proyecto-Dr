@@ -3,7 +3,12 @@
         <h1>Backups</h1>
         <div class="sub">Los respaldos son generados por el sistema (a prueba de WAL). No copies el archivo .sqlite a mano.</div>
     </div>
-    <a class="btn" href="/">← Inicio</a>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <form method="post" action="/soporte/salir" data-confirm="¿Cerrar el acceso de Soporte/TI?" style="display:inline">
+            <button class="btn btn-sm" type="submit">Cerrar acceso</button>
+        </form>
+        <a class="btn" href="/">← Inicio</a>
+    </div>
 </div>
 
 <div class="card" style="margin-bottom:18px;text-align:center">

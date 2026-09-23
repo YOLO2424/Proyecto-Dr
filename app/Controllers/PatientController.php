@@ -90,6 +90,33 @@ final class PatientController
         ]));
     }
 
+    /**
+     * Vista publica del paciente (acceso por QR). Solo identidad y contacto;
+     * NUNCA datos clinicos ni acciones de la consola del doctor.
+     */
+    public function publicShow(Request $request, string $id): void
+    {
+        $service = new PatientService();
+        $patient = $service->get($id);
+        if (!$patient) {
+            Response::send(View::render('qr/error', [
+                'message' => 'El expediente solicitado no existe o no está disponible.',
+            ]), 404);
+        }
+        if ($patient['status'] !== 'ACTIVE') {
+            Response::send(View::render('qr/error', [
+                'message' => 'Este expediente no se encuentra activo.',
+            ]), 404);
+        }
+
+        Response::send(View::render('patients/public', [
+            'patient' => $patient,
+            'contact' => $service->contacts($id) ?: [],
+            'emergency' => $service->emergencyContacts($id),
+            'insurance' => $service->insurance($id) ?: [],
+        ]));
+    }
+
     public function edit(Request $request, string $id): void
     {
         $service = new PatientService();
