@@ -1,0 +1,15 @@
+services:
+  clinica:
+    build: .
+    image: sistema-clinico-local:1.0.0
+    container_name: clinica-local
+    ports:
+      - "8085:8085"
+    volumes:
+      # Los datos (BD, documentos, backups, logs) viven fuera del contenedor
+      # y persisten aunque el contenedor se reconstruya.
+      # ":z" re-etiqueta el directorio para SELinux (Fedora/Ultramarine).
+      - ./storage:/app/storage:z
+    restart: unless-stopped
+    environment:
+      APP_DEBUG: "0"

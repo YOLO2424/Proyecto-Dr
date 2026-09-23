@@ -1,0 +1,23 @@
+# Runtime local (ejecucion nativa sin Docker)
+/frankenphp
+
+# Datos y archivos generados
+storage/database/*
+storage/documents/*
+storage/backups/*
+storage/logs/*
+storage/quarantine/*
+storage/cache/*
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
+# Logs y temporales
+*.log
+*.zip
+/tmp/
+
+# Sistema / editor
+.DS_Store
+.vscode/
+.idea/

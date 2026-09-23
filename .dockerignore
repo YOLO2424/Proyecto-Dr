@@ -1,0 +1,18 @@
+# Binario de FrankenPHP para ejecución nativa (no va en la imagen)
+frankenphp
+
+# Datos y archivos locales (se montan como volumen)
+storage/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
+# Ondas / temporales
+*.log
+*.zip
+
+# Control de versiones y editor
+.git/
+.gitignore
+.vscode/
+.idea/
